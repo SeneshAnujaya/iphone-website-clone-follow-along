@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap';
 import {useGSAP} from '@gsap/react';
 import { yellowImg } from '../utils';
@@ -8,6 +8,7 @@ import {models, sizes} from '../constants/index';
 
 import {Canvas} from '@react-three/fiber';
 import {View} from '@react-three/drei';
+import { animationWithGsapTimeline } from '../utils/animation';
 
 
 const Model = () => {
@@ -33,7 +34,15 @@ const Model = () => {
 
   const tl = gsap.timeline();
 
-  
+  useEffect(() => {
+    if(size === 'large') {
+      animationWithGsapTimeline(tl, small, smallRotation, '#view1', '#view2', {transform: 'translateX(-100%)', duration: 2})
+    }
+
+    if(size === 'small') {
+      animationWithGsapTimeline(tl, large, largeRotation, '#view2', '#view1', {transform: 'translateX(0)', duration: 2})
+    }
+  },[size])
 
   useGSAP(() => {
     gsap.to('#heading', {y:0, opacity:1})
